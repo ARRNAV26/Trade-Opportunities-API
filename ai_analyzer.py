@@ -46,8 +46,8 @@ async def analyze_with_gemini(sector: str, market_data: List[Dict]) -> Dict[str,
         Focus on actionable insights for traders and investors. Use bullet points and clear sections. Be specific with stock symbols, price levels, and timeframes where applicable.
         """
 
-        # Initialize Gemini model (try available models)
-        available_models = ["gemini-pro", "gemini-1.5-flash", "gemini-1.0-pro"]
+        # Initialize Gemini model (try available models) - Updated for latest API
+        available_models = ["gemini-flash-latest", "gemini-pro-latest", "gemini-2.0-flash", "gemini-2.0-flash-lite"]
         model = None
         for model_name in available_models:
             try:

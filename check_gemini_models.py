@@ -15,10 +15,11 @@ if GEMINI_API_KEY:
     print("\n--- Checking Available Models ---")
     try:
         models = genai.list_models()
-        print(f"Total available models: {len(models)}")
+        model_list = list(models)  # Convert generator to list
+        print(f"Total available models: {len(model_list)}")
 
         text_generation_models = []
-        for model in models:
+        for model in model_list:
             if 'generateContent' in str(model.supported_generation_methods):
                 text_generation_models.append(model.name)
             print(f"Model: {model.name} - Methods: {model.supported_generation_methods}")

@@ -29,12 +29,12 @@ def collect_market_data(sector: str) -> List[Dict]:
         logger.info(f"Searching for market data: {query}")
 
         # Perform search using DuckDuckGo
-        with DDGS() as ddgs:
-            results = ddgs.text(
-                query,
-                max_results=settings.SEARCH_MAX_RESULTS,
-                safesearch='moderate'
-            )
+        ddgs = DDGS()
+        results = ddgs.text(
+            query,
+            max_results=settings.SEARCH_MAX_RESULTS,
+            safesearch='moderate'
+        )
 
         # Process search results into standardized format
         market_data = []

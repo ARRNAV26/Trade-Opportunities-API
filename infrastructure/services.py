@@ -28,7 +28,7 @@ class DataCollectorAdapter(DataCollectorInterface):
     async def collect_market_data(self, sector: str) -> List[MarketData]:
         """Collect market data using existing data_collector module"""
         try:
-            from ..data_collector import collect_market_data
+            from data_collector import collect_market_data
 
             # Call the existing synchronous function
             raw_data = collect_market_data(sector)
@@ -56,7 +56,7 @@ class AIAnalyzerAdapter(AIAnalyzerInterface):
     async def analyze_data(self, sector: str, data: List[MarketData]) -> AnalysisResult:
         """Analyze data using existing ai_analyzer module"""
         try:
-            from ..ai_analyzer import analyze_with_gemini
+            from ai_analyzer import analyze_with_gemini
 
             # Convert MarketData objects to dict format expected by existing function
             market_data_dicts = [
@@ -109,7 +109,7 @@ class ReportGeneratorAdapter(ReportGeneratorInterface):
     def generate_report(self, sector: str, analysis: AnalysisResult) -> str:
         """Generate report using existing report_generator module"""
         try:
-            from ..report_generator import generate_markdown_report
+            from report_generator import generate_markdown_report
 
             # Convert AnalysisResult to dict format expected by existing function
             analysis_dict = {
