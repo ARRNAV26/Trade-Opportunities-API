@@ -13,7 +13,7 @@ if GEMINI_API_KEY:
         genai.configure(api_key=GEMINI_API_KEY)
 
         # Try different models to see what's available
-        available_models = ["gemini-pro", "gemini-1.5-flash", "gemini-1.0-pro", "gemini-pro-vision"]
+        available_models = ["models/gemini-1.5-flash", "models/gemini-1.5-pro", "models/gemini-pro"]
 
         for model_name in available_models:
             try:

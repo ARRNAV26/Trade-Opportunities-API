@@ -13,11 +13,11 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
 from pydantic import BaseModel, Field, validator
-from datetime import datetime
+from datetime import datetime, timezone
 
-from config import settings
-from dependencies import get_market_analysis_service
-from auth import get_auth_service, get_current_user, AuthService
+from config.config import settings
+from scripts.dependencies import get_market_analysis_service
+from api.auth import get_auth_service, get_current_user, AuthService
 from middleware.rate_limit import default_limiter
 from middleware.security import get_security_middlewares
 
@@ -59,7 +59,7 @@ class UserRegistrationRequest(BaseModel):
 
     @validator('username')
     def validate_username(cls, v):
-        from auth import auth_service
+        from api.auth import auth_service
         is_valid, error_msg = auth_service.validate_username(v)
         if not is_valid:
             raise ValueError(error_msg)
@@ -67,7 +67,7 @@ class UserRegistrationRequest(BaseModel):
 
     @validator('password')
     def validate_password(cls, v):
-        from auth import auth_service
+        from api.auth import auth_service
         is_valid, error_msg = auth_service.validate_password_strength(v)
         if not is_valid:
             raise ValueError(error_msg)
@@ -286,7 +286,7 @@ async def analyze_sector(
 
         return AnalysisResponse(
             report=report,
-            generated_at=datetime.utcnow().isoformat(),
+            generated_at=datetime.now(timezone.utc).isoformat(),
             sector=sector,
             data_sources=1  # This would be obtained from the analysis service
         )
@@ -309,12 +309,6 @@ async def health_check():
     """
     return {
         "status": "healthy",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "version": "2.0.0"
     }
-
-
-# Application entry point
-if __name__ == "__main__":
-    logger.info("Starting Trade Opportunities API with SOLID architecture...")
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

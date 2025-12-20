@@ -15,8 +15,8 @@ import jwt
 from passlib.context import CryptContext
 import logging
 
-from dependencies import get_user_repository
-from config import settings
+from scripts.dependencies import get_user_repository
+from config.config import settings
 
 logger = logging.getLogger(__name__)
 

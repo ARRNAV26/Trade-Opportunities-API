@@ -36,7 +36,7 @@ def test_health():
 def test_register():
     """Test user registration"""
     print("\n🔍 Testing User Registration...")
-    curl_cmd = 'curl -s -X POST "http://localhost:8000/register" -d "username=testuser&password=testpass"'
+    curl_cmd = 'curl -s -X POST "http://localhost:8000/register" -d "username=testuser&password=TestPass123!"'
     returncode, stdout, stderr = run_curl(curl_cmd)
 
     if returncode == 0 and stdout:

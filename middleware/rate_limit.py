@@ -7,7 +7,7 @@ import logging
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 from slowapi.middleware import SlowAPIMiddleware
-from config import settings
+from config.config import settings
 
 logger = logging.getLogger(__name__)
 

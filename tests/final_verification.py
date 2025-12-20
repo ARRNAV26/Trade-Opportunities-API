@@ -6,6 +6,10 @@ Tests all features and security implementations.
 import os
 import sys
 
+# Add project root to Python path
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, project_root)
+
 def run_final_verification():
     """Run comprehensive verification of all features"""
     print("🔍 FINAL VERIFICATION: Trade Opportunities API")
@@ -23,12 +27,12 @@ def run_final_verification():
         scores["functionality"] += 1
     except ImportError as e:
         results.append(("Dependencies", False, f"Missing: {e}"))
-        return results
+        return results, scores
 
     # 2. Test Configuration
     print("\n2. ⚙️ CONFIGURATION VALIDATION")
     try:
-        from config import settings
+        from config.config import settings
         assert len(settings.SECRET_KEY) >= 32, "Weak SECRET_KEY"
         assert settings.ENVIRONMENT in ["development", "production"], "Invalid environment"
         results.append(("Configuration", True, f"Environment: {settings.ENVIRONMENT}, Security: ✅"))
@@ -49,8 +53,8 @@ def run_final_verification():
     # 4. Test Authentication Service
     print("\n4. 🔐 AUTHENTICATION & SESSION MANAGEMENT")
     try:
-        from auth import auth_service, AuthService
-        from auth import active_sessions, user_sessions
+        from api.auth import auth_service, AuthService
+        from api.auth import active_sessions, user_sessions
 
         # Test password validation
         valid, msg = auth_service.validate_password_strength("StrongPass123!")
@@ -78,7 +82,7 @@ def run_final_verification():
     # 6. Test Application Import
     print("\n6. 🚀 APPLICATION ARCHITECTURE")
     try:
-        from main import app
+        from api.main import app
         routes = [route.path for route in app.routes]
         required_routes = ["/register", "/token", "/analyze/{sector}", "/health", "/logout"]
         found_routes = sum(1 for req in required_routes if any(req in route or route == req for route in routes))
@@ -87,12 +91,12 @@ def run_final_verification():
         scores["functionality"] += 1
     except Exception as e:
         results.append(("Application Import", False, str(e)))
-        return results
+        return results, scores
 
     # 7. Test Data Collection
     print("\n7. 📊 DATA COLLECTION")
     try:
-        from data_collector import collect_market_data
+        from core.data_collector import collect_market_data
         data = collect_market_data("technology")
         results.append(("Data Collection", True, f"Collected {len(data)} data points"))
         scores["functionality"] += 1
@@ -102,7 +106,7 @@ def run_final_verification():
     # 8. Test AI Analysis
     print("\n8. 🤖 AI ANALYSIS")
     try:
-        from ai_analyzer import analyze_with_gemini
+        from core.ai_analyzer import analyze_with_gemini
         import asyncio
 
         async def test_ai():
@@ -123,7 +127,7 @@ def run_final_verification():
     # 9. Test Document Generation
     print("\n9. 📄 DOCUMENT GENERATION")
     try:
-        from generate_word_report import create_word_document
+        from utils.generate_word_report import create_word_document
         import tempfile
 
         test_data = [{"title": "Test", "url": "http://test.com", "body": "Content", "date": "2024-01-01"}]
@@ -149,14 +153,15 @@ def run_final_verification():
         start_time = time.time()
 
         # Quick operations
-        from config import settings
+        from config.config import settings
         from middleware.rate_limit import default_limiter
-        from auth import auth_service
+        from api.auth import auth_service
 
         end_time = time.time()
         load_time = end_time - start_time
 
-        results.append(("Performance", load_time < 2.0, ".2f"        if load_time < 2.0:
+        results.append(("Performance", load_time < 2.0, f"Load time: {load_time:.2f}s"))
+        if load_time < 2.0:
             scores["performance"] += 1
     except Exception as e:
         results.append(("Performance", False, str(e)))
@@ -184,9 +189,11 @@ def print_final_report(results, scores):
     functionality_score = scores["functionality"] / 5 * 100  # 5 functionality tests
     performance_score = scores["performance"] / 1 * 100  # 1 performance test
 
-    print(".1f"    print(".1f"    print(".1f"
+    print(f"Security Score: {security_score:.1f}%")
+    print(f"Functionality Score: {functionality_score:.1f}%")
+    print(f"Performance Score: {performance_score:.1f}%")
     overall_score = (security_score + functionality_score + performance_score) / 3
-    print(".1f"
+    print(f"Overall Score: {overall_score:.1f}%")
     print("-" * 60)
 
     # Final assessment

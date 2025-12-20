@@ -29,7 +29,7 @@ if GEMINI_API_KEY:
             print(f"- {model_name}")
 
         print(f"\n--- Testing Models ---")
-        for model_name in ["models/gemini-pro", "models/gemini-1.5-flash", "models/gemini-1.0-pro"]:
+        for model_name in ["models/gemini-1.5-flash", "models/gemini-1.5-pro", "models/gemini-pro"]:
             try:
                 print(f"Testing {model_name}...")
                 model = genai.GenerativeModel(model_name)

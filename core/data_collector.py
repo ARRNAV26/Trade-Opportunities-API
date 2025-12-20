@@ -7,7 +7,7 @@ Provides privacy-focused search results with decent quality.
 import logging
 from typing import List, Dict
 from duckduckgo_search import DDGS
-from config import settings
+from config.config import settings
 
 logger = logging.getLogger(__name__)
 

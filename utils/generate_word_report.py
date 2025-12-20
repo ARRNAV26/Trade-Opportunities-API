@@ -13,9 +13,9 @@ from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.enum.style import WD_STYLE_TYPE
 
 # Import project modules
-from data_collector import collect_market_data
-from ai_analyzer import analyze_with_gemini
-from config import settings
+from core.data_collector import collect_market_data
+from core.ai_analyzer import analyze_with_gemini
+from config.config import settings
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

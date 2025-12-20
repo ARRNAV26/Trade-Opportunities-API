@@ -1,7 +1,7 @@
 import google.generativeai as genai
 import logging
 from typing import List, Dict, Any
-from config import settings
+from config.config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +47,7 @@ async def analyze_with_gemini(sector: str, market_data: List[Dict]) -> Dict[str,
         """
 
         # Initialize Gemini model (try available models) - Updated for latest API
-        available_models = ["gemini-flash-latest", "gemini-pro-latest", "gemini-2.0-flash", "gemini-2.0-flash-lite"]
+        available_models = ["models/gemini-1.5-flash", "models/gemini-1.5-pro", "models/gemini-pro"]
         model = None
         for model_name in available_models:
             try:
